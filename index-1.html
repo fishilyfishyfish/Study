@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>플래시카드 허브</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+    background: #f0ede8;
+    min-height: 100vh;
+  }
+
+  /* 허브 화면 */
+  #hub {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  .hub-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c2c2c;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+  }
+  .hub-sub {
+    font-size: 0.85rem;
+    color: #999;
+    margin-bottom: 40px;
+  }
+  .cards-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 400px;
+  }
+  .app-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px 28px;
+    cursor: pointer;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 2px solid transparent;
+  }
+  .app-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+  }
+  .app-card.science { border-color: #356BA0; }
+  .app-card.history { border-color: #8b5e3c; }
+  .app-card.science:hover { background: #f0f5fb; }
+  .app-card.history:hover { background: #fdf6ee; }
+
+  .app-icon {
+    font-size: 2.2rem;
+    flex-shrink: 0;
+  }
+  .app-info { flex: 1; }
+  .app-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #2c2c2c;
+    margin-bottom: 4px;
+  }
+  .app-desc {
+    font-size: 0.8rem;
+    color: #999;
+  }
+  .app-arrow {
+    font-size: 1.1rem;
+    color: #ccc;
+  }
+
+  /* 앱 뷰어 */
+  #viewer {
+    display: none;
+    flex-direction: column;
+    height: 100vh;
+  }
+  .viewer-topbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: white;
+    border-bottom: 1px solid #e8e8e8;
+    flex-shrink: 0;
+  }
+  .back-btn {
+    padding: 7px 14px;
+    background: #f0ede8;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #555;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .back-btn:hover { background: #e0dbd4; }
+  .viewer-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #333;
+  }
+  #appFrame {
+    flex: 1;
+    border: none;
+    width: 100%;
+  }
+</style>
+</head>
+<body>
+
+<!-- 허브 -->
+<div id="hub">
+  <div class="hub-title">📚 플래시카드</div>
+  <div class="hub-sub">과목을 선택하세요</div>
+
+  <div class="cards-grid">
+    <div class="app-card science" onclick="openApp('science.html', '중3 과학')">
+      <div class="app-icon">🔬</div>
+      <div class="app-info">
+        <div class="app-name">중3 과학</div>
+        <div class="app-desc">대기 · 운동 · 역학적 에너지</div>
+      </div>
+      <div class="app-arrow">›</div>
+    </div>
+
+    <div class="app-card history" onclick="openApp('korean-history.html', '한국사')">
+      <div class="app-icon">🏯</div>
+      <div class="app-info">
+        <div class="app-name">한국사</div>
+        <div class="app-desc">발해 · 통일신라 · 후삼국과 고려건국</div>
+      </div>
+      <div class="app-arrow">›</div>
+    </div>
+  </div>
+</div>
+
+<!-- 앱 뷰어 -->
+<div id="viewer">
+  <div class="viewer-topbar">
+    <button class="back-btn" onclick="goBack()">← 목록</button>
+    <div class="viewer-title" id="viewerTitle"></div>
+  </div>
+  <iframe id="appFrame"></iframe>
+</div>
+
+<script>
+  function openApp(file, title) {
+    document.getElementById('hub').style.display = 'none';
+    const viewer = document.getElementById('viewer');
+    viewer.style.display = 'flex';
+    document.getElementById('viewerTitle').textContent = title;
+    document.getElementById('appFrame').src = file;
+  }
+
+  function goBack() {
+    document.getElementById('viewer').style.display = 'none';
+    document.getElementById('appFrame').src = '';
+    document.getElementById('hub').style.display = 'flex';
+  }
+</script>
+</body>
+</html>
